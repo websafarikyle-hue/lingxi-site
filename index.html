@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="灵犀，帮你先筛掉不值得消耗时间的关系，只把真正值得回应的人带到你面前。"
+      content="灵犀，把分身训练、深度匹配、心动报告和真人接管整合成一条真正节省时间的关系链路。"
     />
     <title>灵犀</title>
     <link rel="stylesheet" href="styles.css" />
@@ -24,44 +24,52 @@
       </header>
 
       <main class="page">
-        <section class="hero-card hero-card-rich">
-          <div class="hero-copy-block">
-            <p class="eyebrow" id="todayDate">今天</p>
-            <h1 id="heroTitle">今天有 2 段关系，值得你回应。</h1>
-            <p class="hero-text" id="heroSummary"></p>
-            <div class="hero-actions">
-              <a class="button button-primary" href="today/">查看今日简报</a>
-              <a class="button button-secondary" href="connection/?candidate=lin">继续接住这段关系</a>
-            </div>
+        <section class="hero-card hero-card-rich" id="homeHero"></section>
+
+        <section class="section">
+          <div class="section-head">
+            <h2>今天这一轮，灵犀已经替你走到了哪里</h2>
+            <p>先训练你，再替你跑一轮高质量筛选，最后只把值得亲自回应的人交还给你。</p>
           </div>
-          <div class="hero-side" id="heroAside"></div>
+          <div class="grid grid-two" id="pipelineGrid"></div>
         </section>
 
         <section class="section">
           <div class="section-head">
-            <h2>今晚你不需要再自己完成的事</h2>
+            <h2>最新一份心动报告</h2>
+            <p>不是泛泛的匹配结论，而是把为什么值得、哪里仍需你自己判断都讲清楚。</p>
+          </div>
+          <div id="spotlightCard"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <h2>灵犀替你代看回来的情绪锚点</h2>
+            <p>广场不是给所有人看的热闹，而是被精准路由回你这里的有共鸣内容。</p>
+          </div>
+          <div class="stack" id="pulseFeed"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <h2>今天你省下来的消耗</h2>
           </div>
           <div class="grid grid-two" id="savedEffortGrid"></div>
         </section>
 
         <section class="section">
           <div class="section-head">
-            <h2>今晚最值得你分配注意力的关系</h2>
+            <h2>为什么这套系统更像真实产品</h2>
+            <p>灵犀不是替你做决定，而是先替你完成低效又高损耗的前半程。</p>
           </div>
-          <div class="stack" id="priorityCards"></div>
-        </section>
-
-        <section class="section">
-          <div class="section-head">
-            <h2>灵犀现在更懂你的部分</h2>
-          </div>
-          <div class="grid grid-three" id="understandGrid"></div>
+          <div class="grid grid-two" id="trustGrid"></div>
         </section>
       </main>
 
       <nav class="bottom-nav" aria-label="底部导航">
         <a class="bottom-link is-active" href="./"><span>首页</span></a>
-        <a class="bottom-link" href="today/"><span>今日</span></a>
+        <a class="bottom-link" href="today/"><span>匹配</span></a>
+        <a class="bottom-link" href="report/"><span>报告</span></a>
         <a class="bottom-link" href="connection/"><span>接管</span></a>
         <a class="bottom-link" href="profile/"><span>我的</span></a>
       </nav>
