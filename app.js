@@ -309,8 +309,6 @@
         ${user.matchStats.map(statCard).join('')}
       </div>
     `;
-
-    byId('matchCompare').innerHTML = compareTable(readyCandidates());
     byId('readyCandidates').innerHTML = readyCandidates().map(candidateCard).join('');
     byId('waitingCandidates').innerHTML = waitingCandidates().map(candidateCard).join('');
     byId('sceneLibrary').innerHTML = user.sceneLibrary.map((item) => contentCard(item, `<p class="metric-inline">${escapeHTML(item.value)}</p>`)).join('');
@@ -610,3 +608,4 @@
 
   bindSelectableCards();
 })();
+
