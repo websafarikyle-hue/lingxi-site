@@ -148,12 +148,104 @@
     `;
   }
 
+  function switcherRow(candidates, currentId, section) {
+    return candidates
+      .map(
+        (candidate) => `
+          <a class="switcher-pill ${candidate.id === currentId ? 'is-active' : ''}" href="${pageLink(section, candidate.id)}">
+            <span>${escapeHTML(candidate.name)}</span>
+            <strong>${candidate.score}%</strong>
+          </a>
+        `,
+      )
+      .join('');
+  }
+
+  function journeyCard(item, index) {
+    return `
+      <article class="panel journey-card ${item.status}">
+        <div class="journey-top">
+          <div>
+            <p class="eyebrow">系统进程 ${index + 1}</p>
+            <h3>${escapeHTML(item.title)}</h3>
+          </div>
+          <span class="journey-badge ${item.status}">${escapeHTML(item.time)}</span>
+        </div>
+        <p class="journey-value">${escapeHTML(item.value)}</p>
+        <p class="card-copy">${escapeHTML(item.copy)}</p>
+      </article>
+    `;
+  }
+
+  function compareTable(candidates) {
+    const labels = ['价值观契合', '冲突处理', '共情能力', '生活节奏'];
+    return `
+      <div class="panel compare-shell">
+        <div class="compare-table">
+          <div class="compare-row compare-head">
+            <div class="compare-cell compare-label">维度</div>
+            ${candidates
+              .map(
+                (candidate) => `
+                  <div class="compare-cell compare-candidate">
+                    <strong>${escapeHTML(candidate.name)}</strong>
+                    <span>${candidate.score}%</span>
+                  </div>
+                `,
+              )
+              .join('')}
+          </div>
+          ${labels
+            .map((label) => {
+              const key = candidates[0].metrics.find((metric) => metric.label === label)?.label;
+              return `
+                <div class="compare-row">
+                  <div class="compare-cell compare-label">${escapeHTML(key || label)}</div>
+                  ${candidates
+                    .map((candidate) => {
+                      const metric = candidate.metrics.find((item) => item.label === label);
+                      return `
+                        <div class="compare-cell compare-score">
+                          <strong>${metric ? metric.value : '--'}%</strong>
+                          <span>${metric ? escapeHTML(metric.note) : ''}</span>
+                        </div>
+                      `;
+                    })
+                    .join('')}
+                </div>
+              `;
+            })
+            .join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function pairCard(item) {
+    return `
+      <article class="panel pair-card">
+        <p class="eyebrow">${escapeHTML(item.tag)}</p>
+        <h3>${escapeHTML(item.title)}</h3>
+        <p class="card-copy">${escapeHTML(item.copy)}</p>
+      </article>
+    `;
+  }
+
+  function forecastCard(item) {
+    return `
+      <article class="panel forecast-card">
+        <p class="eyebrow">${escapeHTML(item.phase)}</p>
+        <h3>${escapeHTML(item.title)}</h3>
+        <p class="card-copy">${escapeHTML(item.copy)}</p>
+      </article>
+    `;
+  }
+
   function renderHome() {
     const hero = byId('homeHero');
     if (!hero) return;
 
     byId('greetingText').textContent = `${greeting()}，${user.name}`;
-
     const spotlight = readyCandidates()[0];
 
     hero.innerHTML = `
@@ -172,7 +264,7 @@
     `;
 
     byId('pipelineGrid').innerHTML = user.pipeline.map((item) => contentCard(item)).join('');
-
+    byId('journeyRail').innerHTML = user.journeyTimeline.map(journeyCard).join('');
     byId('spotlightCard').innerHTML = `
       <article class="panel spotlight-card">
         <div class="candidate-top">
@@ -197,10 +289,10 @@
         </div>
       </article>
     `;
-
     byId('pulseFeed').innerHTML = user.pulseDigest.map(pulseCard).join('');
     byId('savedEffortGrid').innerHTML = user.savedEffort.map((item) => contentCard(item)).join('');
     byId('trustGrid').innerHTML = user.trustNotes.map((item) => contentCard(item)).join('');
+    byId('futureGrid').innerHTML = user.futureMoves.map((item) => contentCard(item)).join('');
   }
 
   function renderMatches() {
@@ -218,14 +310,17 @@
       </div>
     `;
 
+    byId('matchCompare').innerHTML = compareTable(readyCandidates());
     byId('readyCandidates').innerHTML = readyCandidates().map(candidateCard).join('');
     byId('waitingCandidates').innerHTML = waitingCandidates().map(candidateCard).join('');
-    byId('sceneLibrary').innerHTML = user.sceneLibrary.map((item) => contentCard(item)).join('');
+    byId('sceneLibrary').innerHTML = user.sceneLibrary.map((item) => contentCard(item, `<p class="metric-inline">${escapeHTML(item.value)}</p>`)).join('');
+    byId('matchReasons').innerHTML = user.matchReasons.map((item) => contentCard(item)).join('');
     byId('plazaDigest').innerHTML = user.pulseDigest.map(pulseCard).join('');
   }
 
   function renderReport() {
     const candidate = getCandidate();
+    const ready = readyCandidates();
 
     byId('reportHero').innerHTML = `
       <div class="hero-main">
@@ -249,13 +344,14 @@
           <p>${escapeHTML(candidate.whyNow)}</p>
         </article>
         <article class="stat-card panel">
-          <span>报告生成条件</span>
-          <strong>> 90%</strong>
-          <p>只有通过深层场景测试的关系，才会进入这一步。</p>
+          <span>高分原因</span>
+          <strong>${escapeHTML(candidate.highlights[0])}</strong>
+          <p>${escapeHTML(candidate.priorityReason ? candidate.priorityReason.copy : candidate.whyNow)}</p>
         </article>
       </div>
     `;
 
+    byId('reportSwitcher').innerHTML = switcherRow(ready, candidate.id, 'report');
     byId('reportNarrative').innerHTML = `
       <article class="panel report-card">
         <p class="eyebrow">灵犀心动报告</p>
@@ -263,9 +359,8 @@
         <p class="card-copy">${escapeHTML(candidate.spark.narrative)}</p>
       </article>
     `;
-
     byId('reportMetrics').innerHTML = metricBlock(candidate.metrics);
-
+    byId('reportPairing').innerHTML = (candidate.pairing || []).map(pairCard).join('');
     byId('reportMoments').innerHTML = candidate.spark.moments.length
       ? candidate.spark.moments
           .map(
@@ -282,7 +377,6 @@
           )
           .join('')
       : `<article class="panel card"><p class="card-copy">这段关系还在云端验证阶段，所以暂时还没有生成足够多的心动片段。</p></article>`;
-
     byId('reportScripts').innerHTML = candidate.spark.scripts
       .map(
         (item) => `
@@ -297,7 +391,7 @@
         `,
       )
       .join('');
-
+    byId('reportForecast').innerHTML = (candidate.forecast || []).map(forecastCard).join('');
     byId('reportRisks').innerHTML = candidate.spark.risks.map((item) => contentCard(item)).join('');
     byId('reportAnchors').innerHTML = candidate.spark.openerAnchors
       .map(
@@ -317,6 +411,8 @@
 
   function renderConnection() {
     const candidate = getCandidate();
+    const ready = readyCandidates();
+    const defaultDraft = candidate.handoff.assistantModes[0] ? candidate.handoff.assistantModes[0].text : '这段关系还没有进入真人接管阶段。';
 
     byId('connectionHero').innerHTML = `
       <div class="hero-main">
@@ -343,8 +439,8 @@
       </div>
     `;
 
+    byId('connectionSwitcher').innerHTML = switcherRow(ready, candidate.id, 'connection');
     byId('handoffBoard').innerHTML = candidate.handoff.board.map((item) => contentCard(item)).join('');
-
     byId('liveThread').innerHTML = candidate.messages
       .map(
         (message) => `
@@ -355,12 +451,11 @@
         `,
       )
       .join('');
-
     byId('replyModes').innerHTML = candidate.handoff.assistantModes.length
       ? candidate.handoff.assistantModes
           .map(
-            (item) => `
-              <article class="panel assist-card selectable-card" data-selectable>
+            (item, index) => `
+              <article class="panel assist-card selectable-card ${index === 0 ? 'is-selected' : ''}" data-selectable data-preview-text="${escapeHTML(item.text)}">
                 <div class="assist-top">
                   <h3>${escapeHTML(item.label)}</h3>
                   <span class="tag">${escapeHTML(item.tone)}</span>
@@ -371,9 +466,34 @@
           )
           .join('')
       : `<article class="panel card"><p class="card-copy">这段关系还没有进入真人接手阶段，所以暂时不会生成助攻话术。</p></article>`;
-
+    byId('replyPreview').innerHTML = `
+      <article class="panel preview-shell">
+        <div class="preview-head">
+          <div>
+            <p class="eyebrow">发送前预览</p>
+            <h3>给 ${escapeHTML(candidate.name)} 的第一句</h3>
+          </div>
+          <span class="tag">可再润色</span>
+        </div>
+        <div class="preview-phone">
+          <div class="preview-meta">
+            <span>${escapeHTML(candidate.name)}</span>
+            <strong>在线</strong>
+          </div>
+          <div class="preview-thread">
+            <article class="bubble other">
+              <small>${escapeHTML(candidate.messages[candidate.messages.length - 1].from)}</small>
+              <p>${escapeHTML(candidate.messages[candidate.messages.length - 1].text)}</p>
+            </article>
+            <article class="bubble self preview-draft">
+              <small>你准备发送</small>
+              <p id="replyPreviewText">${escapeHTML(defaultDraft)}</p>
+            </article>
+          </div>
+        </div>
+      </article>
+    `;
     byId('noiseShield').innerHTML = candidate.handoff.noiseShield.map((item) => contentCard(item)).join('');
-
     byId('feedbackPanel').innerHTML = candidate.handoff.feedback.length
       ? candidate.handoff.feedback
           .map(
@@ -426,7 +546,6 @@
         `,
       )
       .join('');
-
     byId('profileSignals').innerHTML = user.profile.signals.map((item) => contentCard(item)).join('');
     byId('profileBoundaries').innerHTML = user.profile.boundaries
       .map(
@@ -438,8 +557,21 @@
         `,
       )
       .join('');
+    byId('trustControls').innerHTML = user.trustControls.map((item) => contentCard(item)).join('');
     byId('profileMemory').innerHTML = user.profile.memory.map((item) => contentCard(item)).join('');
     byId('profileCalibrations').innerHTML = user.profile.calibrations.map((item) => contentCard(item)).join('');
+    byId('posterPreview').innerHTML = `
+      <article class="panel poster-card">
+        <p class="eyebrow">可分享海报</p>
+        <h3>${escapeHTML(user.poster.title)}</h3>
+        <p class="poster-subtitle">${escapeHTML(user.poster.subtitle)}</p>
+        <p class="card-copy">${escapeHTML(user.poster.copy)}</p>
+        <div class="poster-chips">
+          ${user.poster.chips.map((chip) => `<span class="tag">${escapeHTML(chip)}</span>`).join('')}
+        </div>
+        <p class="poster-footer">${escapeHTML(user.poster.footer)}</p>
+      </article>
+    `;
     byId('inviteCard').innerHTML = `
       <article class="panel invite-card">
         <p class="eyebrow">增长引擎</p>
@@ -461,6 +593,11 @@
           group.querySelectorAll('[data-selectable]').forEach((item) => item.classList.remove('is-selected'));
         }
         node.classList.add('is-selected');
+        const previewText = node.getAttribute('data-preview-text');
+        if (previewText) {
+          const previewNode = byId('replyPreviewText');
+          if (previewNode) previewNode.textContent = previewText;
+        }
       });
     });
   }
