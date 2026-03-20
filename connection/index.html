@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="在真正值得的时候，把对话交还给你。" />
-    <title>接管关系 - 灵犀</title>
+    <title>真人接管 - 灵犀</title>
     <link rel="stylesheet" href="../styles.css" />
   </head>
   <body data-page="connection">
@@ -14,54 +14,58 @@
           <span class="brand-mark">LX</span>
           <div class="brand-copy">
             <strong>灵犀</strong>
-            <span>接管关系</span>
+            <span>真人接管</span>
           </div>
         </div>
-        <a class="topbar-link" href="../today/">更多关系</a>
+        <a class="topbar-link" href="../today/">回到匹配</a>
       </header>
 
       <main class="page">
-        <section class="candidate-hero hero-card-rich" id="candidateHero"></section>
+        <section class="hero-card hero-card-rich" id="connectionHero"></section>
 
         <section class="section">
           <div class="section-head">
-            <h2>现在最适合你看的部分</h2>
+            <h2>接手前先看这一屏</h2>
+            <p>把该知道的背景、节奏和第一步动作放在一起，避免你重新回到陌生关系的起点。</p>
           </div>
-          <div class="grid grid-two" id="connectionOverview"></div>
+          <div class="grid grid-two" id="handoffBoard"></div>
         </section>
 
         <section class="section">
           <div class="section-head">
-            <h2>灵犀心动报告</h2>
+            <h2>分身结束前的最后一段对话</h2>
           </div>
-          <div class="report-card" id="reportCard"></div>
+          <div class="chat-thread" id="liveThread"></div>
         </section>
 
         <section class="section">
           <div class="section-head">
-            <h2>你们上一段对话</h2>
+            <h2>AI 助攻模式</h2>
+            <p>同一段内容给你三种语气选择，避免接手后风格突然断掉。</p>
           </div>
-          <div class="chat-thread" id="chatThread"></div>
+          <div class="stack" id="replyModes"></div>
         </section>
 
         <section class="section">
           <div class="section-head">
-            <h2>你可以自然接上的方式</h2>
+            <h2>降噪保护</h2>
           </div>
-          <div class="stack" id="openerList"></div>
+          <div class="grid grid-two" id="noiseShield"></div>
         </section>
 
         <section class="section">
           <div class="section-head">
-            <h2>第一次见面更适合这样开始</h2>
+            <h2>这段关系结束后，灵犀会这样校准</h2>
+            <p>真实反馈不只是记录结果，它会反过来纠偏下一轮匹配和你的有效关系画像。</p>
           </div>
-          <div class="grid grid-two" id="dateIdeas"></div>
+          <div class="stack" id="feedbackPanel"></div>
         </section>
       </main>
 
       <nav class="bottom-nav" aria-label="底部导航">
         <a class="bottom-link" href="../"><span>首页</span></a>
-        <a class="bottom-link" href="../today/"><span>今日</span></a>
+        <a class="bottom-link" href="../today/"><span>匹配</span></a>
+        <a class="bottom-link" href="../report/"><span>报告</span></a>
         <a class="bottom-link is-active" href="./"><span>接管</span></a>
         <a class="bottom-link" href="../profile/"><span>我的</span></a>
       </nav>
