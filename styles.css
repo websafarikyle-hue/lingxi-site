@@ -655,3 +655,229 @@ button {
     font-size: 0.76rem;
   }
 }
+
+.switcher-row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.switcher-row::-webkit-scrollbar,
+.compare-shell::-webkit-scrollbar {
+  height: 6px;
+}
+
+.switcher-row::-webkit-scrollbar-thumb,
+.compare-shell::-webkit-scrollbar-thumb {
+  background: rgba(17, 24, 39, 0.12);
+  border-radius: 999px;
+}
+
+.switcher-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.88);
+  white-space: nowrap;
+  color: var(--muted);
+}
+
+.switcher-pill strong {
+  color: var(--text);
+  font-size: 0.92rem;
+}
+
+.switcher-pill.is-active {
+  border-color: rgba(12, 108, 242, 0.28);
+  background: linear-gradient(180deg, rgba(12, 108, 242, 0.12), rgba(255, 255, 255, 0.98));
+  color: var(--accent-deep);
+}
+
+.journey-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.journey-card::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 22px;
+  bottom: -18px;
+  width: 1px;
+  background: rgba(17, 24, 39, 0.08);
+}
+
+.journey-card:last-child::before {
+  display: none;
+}
+
+.journey-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.journey-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.84);
+  color: var(--muted);
+}
+
+.journey-badge.done {
+  color: var(--success);
+  background: var(--success-soft);
+  border-color: transparent;
+}
+
+.journey-badge.active {
+  color: var(--accent-deep);
+  background: rgba(12, 108, 242, 0.12);
+  border-color: transparent;
+}
+
+.journey-value,
+.poster-subtitle,
+.poster-footer,
+.metric-inline {
+  margin: 10px 0 6px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.compare-shell {
+  overflow-x: auto;
+  padding: 0;
+}
+
+.compare-table {
+  min-width: 720px;
+}
+
+.compare-row {
+  display: grid;
+  grid-template-columns: 180px repeat(2, minmax(180px, 1fr));
+}
+
+.compare-cell {
+  padding: 16px 18px;
+  border-right: 1px solid rgba(17, 24, 39, 0.06);
+  border-bottom: 1px solid rgba(17, 24, 39, 0.06);
+}
+
+.compare-row:last-child .compare-cell {
+  border-bottom: 0;
+}
+
+.compare-cell:last-child {
+  border-right: 0;
+}
+
+.compare-head .compare-cell {
+  background: rgba(17, 24, 39, 0.03);
+}
+
+.compare-label {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.compare-candidate strong,
+.compare-score strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+.compare-candidate span,
+.compare-score span {
+  color: var(--muted-soft);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.pair-card,
+.forecast-card,
+.poster-card,
+.preview-shell {
+  background:
+    radial-gradient(circle at top right, rgba(12, 108, 242, 0.08), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 251, 253, 0.96));
+}
+
+.preview-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.preview-phone {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #0f172a, #1f2937);
+}
+
+.preview-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 6px 12px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.86rem;
+}
+
+.preview-meta strong {
+  color: #9ee6b5;
+  font-size: 0.82rem;
+}
+
+.preview-thread {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04));
+}
+
+.preview-thread .bubble {
+  max-width: 100%;
+  box-shadow: none;
+}
+
+.preview-draft {
+  border: 1px solid rgba(12, 108, 242, 0.2);
+}
+
+.poster-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.poster-footer {
+  margin-top: 14px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+@media (max-width: 759px) {
+  .compare-row {
+    grid-template-columns: 140px repeat(2, minmax(180px, 1fr));
+  }
+}
