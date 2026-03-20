@@ -1,0 +1,63 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="今天值得你回应的人，都在这里。" />
+    <title>今日简报 - 灵犀</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body data-page="today">
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">LX</span>
+          <div class="brand-copy">
+            <strong>灵犀</strong>
+            <span>今日简报</span>
+          </div>
+        </div>
+        <a class="topbar-link" href="../">返回首页</a>
+      </header>
+
+      <main class="page">
+        <section class="hero-card section-banner">
+          <p class="eyebrow">今天的关系简报</p>
+          <h1 class="page-title">今晚值得你回应的人，已经替你筛出来了。</h1>
+          <p class="page-subtitle" id="todaySummary"></p>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <h2>优先接住</h2>
+          </div>
+          <div class="stack" id="readyCandidates"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <h2>继续观察</h2>
+          </div>
+          <div class="stack" id="waitingCandidates"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <h2>今晚你不需要再验证的部分</h2>
+          </div>
+          <div class="grid grid-two" id="confidenceGrid"></div>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="底部导航">
+        <a class="bottom-link" href="../"><span>首页</span></a>
+        <a class="bottom-link is-active" href="./"><span>今日</span></a>
+        <a class="bottom-link" href="../connection/"><span>接管</span></a>
+        <a class="bottom-link" href="../profile/"><span>我的</span></a>
+      </nav>
+    </div>
+
+    <script src="../data.js"></script>
+    <script src="../app.js"></script>
+  </body>
+</html>
